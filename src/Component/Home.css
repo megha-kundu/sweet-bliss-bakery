@@ -1,0 +1,261 @@
+.hero {
+    min-height: 78vh;
+    background: linear-gradient(90deg, rgba(35, 18, 12, .78), rgba(35, 18, 12, .12)), url("/pexels-fotios-photos-3341067.jpg") center/cover no-repeat;
+    display: flex;
+    align-items: center;
+    color: white;
+    padding: 80px clamp(24px, 8vw, 120px);
+}
+
+.hero-content {
+    max-width: 760px;
+    animation: rise-in .8s ease both;
+}
+
+.hero h1 {
+    font: 700 clamp(3rem, 8vw, 7rem)/.92 Georgia, serif;
+    max-width: 700px;
+    letter-spacing: 0;
+}
+
+.hero p {
+    font-size: 1.15rem;
+    max-width: 430px;
+    margin: 24px 0 30px;
+    color: #f8eade;
+}
+
+.hero .eyebrow {
+    color: #f7c9a6;
+}
+
+.eyebrow {
+    color: #c45335;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font: 700 .72rem/1.4 Arial, sans-serif;
+    margin-bottom: 12px;
+}
+
+.hero button,
+.box button {
+    padding: 14px 28px;
+    font-size: 14px;
+    border: 0;
+    border-radius: 0;
+    background: #c45335;
+    color: white;
+    cursor: pointer;
+    transition: transform .25s, background .25s;
+}
+
+.hero button:hover,
+.box button:hover {
+    transform: translateY(-3px);
+    background: #9f3f29;
+}
+
+.featured {
+    padding: 90px clamp(20px, 7vw, 100px);
+    background: #fbf6ef;
+}
+
+.featured>h2 {
+    display: none;
+}
+
+.section-heading {
+    max-width: 1180px;
+    margin: 0 auto 35px;
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 30px;
+}
+
+.section-heading h2,
+.promise h2 {
+    font: 700 clamp(2rem, 4vw, 3.5rem)/1 Georgia, serif;
+    color: #3b211a;
+    max-width: 560px;
+}
+
+.section-heading>p {
+    max-width: 280px;
+    color: #80665a;
+    line-height: 1.6;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    max-width: 1180px;
+    margin: auto;
+}
+
+.card {
+    position: relative;
+    border-radius: 0;
+    overflow: hidden;
+    cursor: pointer;
+    display: block;
+    box-shadow: 0 12px 28px rgba(70, 35, 20, .13);
+    transition: transform .4s, box-shadow .4s;
+}
+
+.card img {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+    display: block;
+    transition: transform .5s;
+}
+
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 38px rgba(70, 35, 20, .2);
+}
+
+.card:hover img {
+    transform: scale(1.06);
+}
+
+.overlay {
+    position: absolute;
+    inset: auto 0 0;
+    padding: 48px 20px 20px;
+    text-align: left;
+    background: linear-gradient(to top, rgba(25, 12, 8, .78), transparent);
+    color: white;
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: 0;
+}
+
+.overlay span,
+.overlay small {
+    display: block;
+}
+
+.overlay small {
+    font: 400 12px Arial, sans-serif;
+    margin-top: 5px;
+    opacity: .88;
+}
+
+.promise {
+    padding: 100px clamp(20px, 8vw, 120px);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 70px;
+    background: #fffdf9;
+    border-top: 1px solid #eadbca;
+}
+
+.promise-list p {
+    display: grid;
+    grid-template-columns: 50px 1fr;
+    border-top: 1px solid #eadbca;
+    padding: 20px 0;
+    margin: 0;
+}
+
+.promise-list strong {
+    color: #c45335;
+    font: 700 1rem Arial, sans-serif;
+}
+
+.promise-list span {
+    font: 700 1.1rem Georgia, serif;
+}
+
+.promise-list small {
+    grid-column: 2;
+    color: #80665a;
+    margin-top: 5px;
+}
+
+.extras {
+    display: flex;
+    gap: 30px;
+    padding: 70px clamp(20px, 8vw, 120px);
+    flex-wrap: wrap;
+    justify-content: center;
+    background: #f1e6d8;
+}
+
+.box {
+    flex: 1;
+    min-width: 280px;
+    max-width: 500px;
+    background: #fffdf9;
+    padding: 38px;
+    text-align: center;
+    box-shadow: 0 12px 30px rgba(70, 35, 20, .1);
+}
+
+.box h2 {
+    color: #3b211a;
+    margin-bottom: 15px;
+    font: 700 2rem Georgia, serif;
+}
+
+.box p {
+    margin-bottom: 20px;
+    color: #80665a;
+    line-height: 1.6;
+}
+
+.footer {
+    background: #2b1913;
+    color: #f8eade;
+    padding: 24px;
+    text-align: center;
+    font: 12px Arial, sans-serif;
+    letter-spacing: 1px;
+}
+
+@keyframes rise-in {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 700px) {
+
+    .section-heading,
+    .promise {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 22px;
+    }
+
+    .hero {
+        min-height: 72vh;
+    }
+
+    .grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+    }
+
+    .card img {
+        height: 220px;
+    }
+
+    .overlay {
+        padding: 35px 12px 12px;
+        font-size: 18px;
+    }
+
+    .overlay small {
+        font-size: 10px;
+    }
+}
