@@ -4,11 +4,16 @@ import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 dotenv.config();
 const app = express();
 app.use(cors());
 app.use(express.json());
+const projectRoot = path.dirname(fileURLToPath(import.meta.url));
+const frontendDist = path.join(projectRoot, '..', 'dist');
+app.use(express.static(frontendDist));
 
 const schemaOptions = { timestamps: true };
 const productSchema = new mongoose.Schema({
@@ -65,6 +70,8 @@ app.post('/api/orders', async (req, res) => {
         res.status(201).json({ id: order.id, total: order.total, status: order.status });
     } catch (error) { res.status(500).json({ message: error.message }); }
 });
+
+app.get(/^(?!\/api).*/, (_req, res) => res.sendFile(path.join(frontendDist, 'index.html')));
 
 const port = process.env.PORT || 5000;
 primaryDb.asPromise().then(() => (localDb && atlasDb ? atlasDb.asPromise().catch((error) => console.error(`Atlas unavailable; local database remains active: ${error.message}`)) : undefined))
