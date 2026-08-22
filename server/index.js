@@ -25,16 +25,17 @@ const orderSchema = new mongoose.Schema({
     total: Number, status: { type: String, default: 'received' },
 }, schemaOptions);
 
-const localUri = process.env.MONGODB_LOCAL_URI || 'mongodb://127.0.0.1:27017/sweet-bliss';
 const atlasUri = process.env.MONGODB_ATLAS_URI || process.env.MONGODB_URI;
-const localDb = mongoose.createConnection(localUri);
+const localUri = process.env.MONGODB_LOCAL_URI || (!atlasUri ? 'mongodb://127.0.0.1:27017/sweet-bliss' : null);
+const localDb = localUri ? mongoose.createConnection(localUri) : null;
 const atlasDb = atlasUri && !atlasUri.includes('<username>') ? mongoose.createConnection(atlasUri, { serverSelectionTimeoutMS: 5000 }).useDb('bakery') : null;
-const localModels = { Product: localDb.model('Product', productSchema), User: localDb.model('User', userSchema), Order: localDb.model('Order', orderSchema) };
+const primaryDb = localDb || atlasDb;
+const localModels = { Product: primaryDb.model('Product', productSchema), User: primaryDb.model('User', userSchema), Order: primaryDb.model('Order', orderSchema) };
 const atlasModels = atlasDb ? { Product: atlasDb.model('Product', productSchema), User: atlasDb.model('User', userSchema), Order: atlasDb.model('Order', orderSchema) } : null;
-const allModels = (name) => [localModels[name], atlasModels?.[name]].filter((Model) => Model?.db.readyState === 1);
+const allModels = (name) => [...new Set([localModels[name], atlasModels?.[name]])].filter((Model) => Model?.db.readyState === 1);
 const mirrorCreate = async (name, data) => Promise.all(allModels(name).map((Model) => Model.create(data)));
 
-app.get('/api/health', (_req, res) => res.json({ ok: true, local: localDb.readyState === 1 ? 'connected' : 'offline', atlas: atlasDb?.readyState === 1 ? 'connected' : 'not configured' }));
+app.get('/api/health', (_req, res) => res.json({ ok: true, local: localDb?.readyState === 1 ? 'connected' : 'not configured', atlas: atlasDb?.readyState === 1 ? 'connected' : 'not configured' }));
 app.get('/api/products', async (req, res) => {
     try {
         const filter = req.query.category ? { category: req.query.category } : {};
@@ -66,6 +67,6 @@ app.post('/api/orders', async (req, res) => {
 });
 
 const port = process.env.PORT || 5000;
-localDb.asPromise().then(() => atlasDb?.asPromise().catch((error) => console.error(`Atlas unavailable; local database remains active: ${error.message}`)))
+primaryDb.asPromise().then(() => (localDb && atlasDb ? atlasDb.asPromise().catch((error) => console.error(`Atlas unavailable; local database remains active: ${error.message}`)) : undefined))
     .then(() => app.listen(port, () => console.log(`API running on http://localhost:${port}`)))
     .catch((error) => { console.error(`MongoDB connection failed: ${error.message}`); process.exit(1); });
