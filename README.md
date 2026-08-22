@@ -56,6 +56,7 @@ The application uses **React** for the frontend, **Node.js and Express** for the
 * Express.js
 * MongoDB
 * Mongoose
+* MongoDB Atlas
 * JWT
 * bcryptjs
 
