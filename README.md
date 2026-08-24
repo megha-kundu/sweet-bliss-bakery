@@ -9,7 +9,7 @@ A modern full-stack bakery storefront where customers can browse handcrafted swe
 
 ## 🌐 Live Demo
 
-**Website:** [Visit Sweet Bliss Bakery](YOUR_LIVE_WEBSITE_URL)
+**Website:** [Visit Sweet Bliss Bakery](https://sweet-bliss-bakery.onrender.com)
 
 **Repository:** [GitHub Repository](https://github.com/megha-kundu/sweet-bliss-bakery)
 
